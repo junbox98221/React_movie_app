@@ -1,7 +1,6 @@
 import { moviesApi } from "Components/api";
 import React from "react";
 import HomePresenter from "./HomePresenter";
-
 const HomeContainer = class extends React.Component {
   state = {
     nowPlaying: null,
@@ -17,14 +16,14 @@ const HomeContainer = class extends React.Component {
         data: { results: nowPlaying },
       } = await moviesApi.nowPlaying();
       const {
-        data: { results: upComing },
+        data: { results: upcoming },
       } = await moviesApi.upcoming();
       const {
         data: { results: popular },
       } = await moviesApi.popular();
       this.setState({
         nowPlaying,
-        upComing,
+        upcoming,
         popular,
       });
     } catch {
