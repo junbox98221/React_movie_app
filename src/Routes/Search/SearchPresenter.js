@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import Helmet from "react-helmet";
 import Loader from "Components/Loader";
 import Section from "Components/Section";
 import Message from "Components/Message";
@@ -38,6 +39,9 @@ const SearchPresenter = ({
         onChange={updateTerm}
       />
     </Form>
+    <Helmet>
+      <title>Search | Netflix</title>
+    </Helmet>
     {loading ? (
       <Loader />
     ) : (
@@ -47,6 +51,7 @@ const SearchPresenter = ({
             {movieResults.map((movie) => (
               <Poster
                 key={movie.id}
+                id={movie.id}
                 title={movie.original_title}
                 imageUrl={movie.poster_path}
                 rating={movie.vote_average}
@@ -61,6 +66,7 @@ const SearchPresenter = ({
             {tvResults.map((show) => (
               <Poster
                 key={show.id}
+                id={show.id}
                 title={show.original_title}
                 imageUrl={show.poster_path}
                 rating={show.vote_average}
