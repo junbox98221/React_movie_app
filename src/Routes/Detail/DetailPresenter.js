@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Loader from "Components/Loader";
 import Helmet from "react-helmet";
 import Message from "Components/Message";
+import ReactPlayer from "react-player";
 
 const Container = styled.div`
   height: calc(100vh - 50px);
@@ -54,9 +55,12 @@ const Title = styled.h3`
 
 const ItemContainer = styled.div`
   margin: 20px 0;
+  display: flex;
 `;
 
-const Item = styled.span``;
+const Item = styled.span`
+  display: flex;
+`;
 
 const Divider = styled.span`
   margin: 0 10px;
@@ -67,6 +71,37 @@ const Overview = styled.p`
   opacity: 0.7;
   line-height: 1.5;
   width: 60%;
+`;
+
+const Logo = styled.div`
+  display: block;
+  width: 50px;
+  background-image: url(${(props) => props.bgImage});
+  background-position: center center;
+  background-size: cover;
+  height: 100%;
+`;
+
+const Player = styled(ReactPlayer)`
+  margin: 20px 0;
+`;
+
+const SeasonTab = styled.div`
+  display: grid;
+  margin-top: 10px;
+  height: 130px;
+  grid-template-columns: repeat(auto-fill, 100px);
+  width: 100%;
+  grid-gap: 10px;
+`;
+const Season = styled.div`
+  display: block;
+  width: 100%;
+  background-image: url(${(props) => props.bgImage});
+  background-position: center center;
+  background-size: cover;
+  height: 100%;
+  border-radius: 10px;
 `;
 
 const DetailPresenter = ({ result, loading, error }) =>
@@ -113,7 +148,10 @@ const DetailPresenter = ({ result, loading, error }) =>
             </Item>
             <Divider>•</Divider>
             <Item>
-              {result.runtime ? result.runtime : result.episode_run_time[0]} min
+              {result.runtime
+                ? result.runtime
+                : result.episode_run_time && result.episode_run_time[0]}{" "}
+              min
             </Item>
             <Divider>•</Divider>
             <Item>
@@ -124,8 +162,55 @@ const DetailPresenter = ({ result, loading, error }) =>
                     : `${genre.name} / `
                 )}
             </Item>
+            {result.imdb_id && (
+              <Item>
+                <Divider>•</Divider>
+                <a
+                  href={`https://www.imdb.com/title/${result.imdb_id}`}
+                  target="_blank"
+                >
+                  IMDB
+                </a>
+              </Item>
+            )}
+            {result.production_companies && (
+              <Item>
+                {result.production_companies.map(
+                  (item) =>
+                    item.logo_path && (
+                      <>
+                        <Divider>•</Divider>
+                        <Logo
+                          bgImage={`https://image.tmdb.org/t/p/original${item.logo_path}`}
+                        ></Logo>
+                      </>
+                    )
+                )}
+              </Item>
+            )}
+            {result.production_countries.length > 0 && (
+              <Item>
+                <Divider>•</Divider>
+                {result.production_countries[0].iso_3166_1}
+              </Item>
+            )}
           </ItemContainer>
+          {result.videos.results[0] && "key" in result.videos.results[0] && (
+            <Player
+              url={`https://www.youtube.com/watch?v=${result.videos.results[0].key}`}
+              playing
+              controls
+            />
+          )}
           <Overview>{result.overview}</Overview>
+          <SeasonTab>
+            {result.seasons &&
+              result.seasons.map((item) => (
+                <Season
+                  bgImage={`https://image.tmdb.org/t/p/original${item.poster_path}`}
+                />
+              ))}
+          </SeasonTab>
         </Data>
       </Content>
     </Container>

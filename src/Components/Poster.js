@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { falseFunc } from "boolbase";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
@@ -49,7 +48,7 @@ const Year = styled.span`
 `;
 
 const Poster = ({ imageUrl, title, rating, year, isMovie = false, id }) => (
-  <Link to={isMovie ? `/movie/${id}` : `/show/${id}`}>
+  <Link to={isMovie ? `/movie/${id}` : `/tv/${id}`}>
     <Container>
       <ImageContainer>
         <Image
