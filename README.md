@@ -18,3 +18,6 @@ Learning React and ES6 by building a Movie Discovery App.
 - [x] Detail (TV , Movie)
 - [x] Popular (TV , Movie)
 - [x] Search(TV , Movie)
+
+Click the link to see the distributed site
+https://lucid-northcutt-bb05eb.netlify.app/
